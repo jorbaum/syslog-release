@@ -188,6 +188,16 @@ var _ = Describe("Forwarding loglines to a TCP syslog drain", func() {
 			}).ShouldNot(ContainSubstring(message))
 		})
 
+		It("includes custom AppArmor rules in the deployed AppArmor config", func() {
+			session := ForwarderSshCmd("test -d /etc/apparmor.d/rsyslog.d")
+			Eventually(session).Should(gexec.Exit())
+			if session.ExitCode() != 0 {
+				Skip("AppArmor rsyslog.d directory not present on this stemcell")
+			}
+			session = ForwarderSshCmd("cat /etc/apparmor.d/rsyslog.d/syslog.apparmor")
+			Eventually(session).Should(gbytes.Say(`/var/vcap/data/syslog_forwarder/\*\* rw,`))
+		})
+
 		TestSharedBehavior()
 	})
 

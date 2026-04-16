@@ -23,6 +23,9 @@ instance_groups:
       syslog:
         custom_rule: |
           if ($msg contains "DEBUG") then stop
+        custom_apparmor_rules: |
+          /var/vcap/data/syslog_forwarder/** rw,
+          /var/vcap/sys/log/syslog_forwarder/** rw,
   - name: storer
     instances: 1
     vm_type: default
