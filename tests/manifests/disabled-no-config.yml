@@ -10,7 +10,7 @@ stemcells:
 instance_groups:
   - name: forwarder
     instances: 1
-    vm_type: default
+    vm_type: ((vm-type))
     stemcell: default
     networks:
       - name: default

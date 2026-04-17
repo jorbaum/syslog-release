@@ -42,6 +42,9 @@ Defaults to `google-kvm`. Common values include:
 
 See https://bosh.io/stemcells for the full list.
 
+You can set `VM_TYPE` to match a VM type from your BOSH Director's cloud config.
+Defaults to `default`. Run `bosh cloud-config` to see available VM types.
+
 ## Notes
 
 Because this release is almost entirely composed of bosh templates,

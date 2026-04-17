@@ -25,6 +25,13 @@ func StemcellOS() string {
 	return "ubuntu-bionic"
 }
 
+func VmType() string {
+	if vmType, vmTypeEnvSet := os.LookupEnv("VM_TYPE"); vmTypeEnvSet {
+		return vmType
+	}
+	return "default"
+}
+
 func BoshCmd(args ...string) *gexec.Session {
 	boshArgs := []string{"-n", "-d", DeploymentName()}
 	boshArgs = append(boshArgs, args...)
@@ -64,7 +71,8 @@ func Deploy(manifest string) *gexec.Session {
 	By("Deploying")
 	session := BoshCmd("deploy", manifest,
 		"-v", fmt.Sprintf("deployment=%s", DeploymentName()),
-		"-v", fmt.Sprintf("stemcell-os=%s", StemcellOS()))
+		"-v", fmt.Sprintf("stemcell-os=%s", StemcellOS()),
+		"-v", fmt.Sprintf("vm-type=%s", VmType()))
 	Eventually(session, 40*time.Minute).Should(gexec.Exit(0))
 	Eventually(BoshCmd("locks")).ShouldNot(gbytes.Say(DeploymentName()))
 	return session
@@ -73,7 +81,8 @@ func Deploy(manifest string) *gexec.Session {
 func DeployWithVarsStore(manifest string) *gexec.Session {
 	session := BoshCmd("deploy", manifest,
 		"-v", fmt.Sprintf("deployment=%s", DeploymentName()), fmt.Sprintf("--vars-store=/tmp/%s-vars.yml", DeploymentName()),
-		"-v", fmt.Sprintf("stemcell-os=%s", StemcellOS()))
+		"-v", fmt.Sprintf("stemcell-os=%s", StemcellOS()),
+		"-v", fmt.Sprintf("vm-type=%s", VmType()))
 	Eventually(session, 40*time.Minute).Should(gexec.Exit(0))
 	Eventually(BoshCmd("locks")).ShouldNot(gbytes.Say(DeploymentName()))
 	return session

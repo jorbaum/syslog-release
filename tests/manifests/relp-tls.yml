@@ -10,7 +10,7 @@ stemcells:
 instance_groups:
   - name: forwarder
     instances: 1
-    vm_type: default
+    vm_type: ((vm-type))
     stemcell: default
     networks:
       - name: default
@@ -27,7 +27,7 @@ instance_groups:
             ca_cert: ((syslog.ca))
   - name: storer
     instances: 1
-    vm_type: default
+    vm_type: ((vm-type))
     stemcell: default
     networks:
       - name: default
