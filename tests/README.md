@@ -45,6 +45,12 @@ See https://bosh.io/stemcells for the full list.
 You can set `VM_TYPE` to match a VM type from your BOSH Director's cloud config.
 Defaults to `default`. Run `bosh cloud-config` to see available VM types.
 
+You can set `NETWORK` to match a network name from your cloud config.
+Defaults to `default`.
+
+You can set `AZ` to match an availability zone from your cloud config.
+Defaults to `z1`.
+
 ## Notes
 
 Because this release is almost entirely composed of bosh templates,

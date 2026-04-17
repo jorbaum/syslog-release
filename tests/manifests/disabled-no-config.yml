@@ -13,9 +13,9 @@ instance_groups:
     vm_type: ((vm-type))
     stemcell: default
     networks:
-      - name: default
+      - name: ((network))
     azs:
-      - z1
+      - ((az))
     jobs:
       - name: syslog_forwarder
         release: syslog
